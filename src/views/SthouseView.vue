@@ -3,9 +3,9 @@
         添加
     </el-button>
     <el-table :data="stData" style="width: 100%">
-        <el-table-column prop="storehouseid" label="Storehouseid" width="150" />
-        <el-table-column prop="storehousename" label="Storehousename" width="180" />
-        <el-table-column prop="storehouseaddress" label="Storehouseaddress" width="180" />
+        <el-table-column prop="storehouseid" label="Storehouseid"  />
+        <el-table-column prop="storehousename" label="Storehousename" />
+        <el-table-column prop="storehouseaddress" label="Storehouseaddress"  />
 
 
 

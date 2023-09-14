@@ -1,34 +1,4 @@
 <template>
-	<div class="common-layout">
-		<el-container>
-			<el-header style="--el-header-padding: 0 0px">
-				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
-					text-color="#fff" active-text-color="#ffd04b" @select="handleSelect">
-					<el-menu-item index="1">Processing Center</el-menu-item>
-					<el-sub-menu index="2">
-						<template #title>Workspace</template>
-						<el-menu-item index="2-1">item one</el-menu-item>
-						<el-menu-item index="2-2">item two</el-menu-item>
-						<el-menu-item index="2-3">item three</el-menu-item>
-						<el-sub-menu index="2-4">
-							<template #title>item four</template>
-							<el-menu-item index="2-4-1">item one</el-menu-item>
-							<el-menu-item index="2-4-2">item two</el-menu-item>
-							<el-menu-item index="2-4-3">item three</el-menu-item>
-						</el-sub-menu>
-					</el-sub-menu>
-					<el-menu-item index="3" disabled>Info</el-menu-item>
-					<el-menu-item index="4">Orders</el-menu-item>
-				</el-menu>
-			</el-header>
-
-			<el-container>
-				<el-aside width="200px">
-
-				</el-aside>
-
-
-				<el-main>
 					<div class="alignment-container">
 						<el-space alignment="center" :size="'large'">
 							<el-date-picker v-model="value1" type="datetimerange" :shortcuts="shortcuts"
@@ -39,6 +9,7 @@
 							</el-button>
 						</el-space>
 					</div>
+					
 					<el-table :data="stData" style="width: 100%">
 						<el-table-column prop="no" label="No" width="100" fixed />
 						<el-table-column prop="name" label="Name" />
@@ -55,10 +26,8 @@
 						</el-table-column>
 
 					</el-table>
-				</el-main>
-			</el-container>
-		</el-container>
-	</div>
+
+
 
 
 

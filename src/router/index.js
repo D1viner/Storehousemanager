@@ -10,18 +10,30 @@ import SthouseView from "../views/SthouseView.vue"
 // 1. 定义组件
 const routes = [
 	{
-		"path":"/",name:"home",component:HomeView
+		"path":"/",redirect:'/login'
+	},
+	{
+		"path":"/home",name:"home",component:HomeView,
+		"children":[
+				{
+					"path":"/home/sthouse",name:"sthouse",component:SthouseView
+				},{
+					"path":"/home/storehouse",name:"storehouse",component:StorehouseView
+				},
+		]
 	},
 	{
 		"path":"/about",name:"about",component:AboutView
 	},
 	{
 		"path":"/login",name:"login",component:LoginView
-	},{
-		"path":"/storehouse",name:"storehouse",component:StorehouseView
-	},{
-		"path":"/sthouse",name:"sthouse",component:SthouseView
 	},
+	// {
+	// 	"path":"/storehouse",name:"storehouse",component:StorehouseView
+	// },
+	// {
+	// 	"path":"/home/sthouse",name:"sthouse",component:SthouseView
+	// },
 ]
 
 const router = createRouter({
