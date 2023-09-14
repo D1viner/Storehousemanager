@@ -1,9 +1,10 @@
 <template>
 	<div class="alignment-container">
 		<el-space alignment="center" :size="'large'">
-			<el-date-picker v-model="value1" type="datetimerange" :shortcuts="shortcuts"
-				range-separator="To" format="YYYY/MM/DD" value-format="YYYY-MM-DD"
-				start-placeholder="Start date" end-placeholder="End date" />
+			<el-date-picker v-model="dateRange" type="daterange" :shortcuts="shortcuts"
+	range-separator="To" format="YYYY/MM/DD" value-format="YYYY-MM-DD"
+	start-placeholder="Start date" end-placeholder="End date" @change="filterTableData" />
+
 			<el-button type="primary" size="small" round @click="dialogFormVisible = true" class="add-btn">
 				添加
 			</el-button>
@@ -103,12 +104,14 @@ import { ref, reactive } from 'vue';
 import api from "../api/api.js";
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { Action } from 'element-plus';
-
+import { format, parseISO } from 'date-fns';
+ 
 var stData = ref([]);
 
 api.get("/storehouse/").then((resp) => {
 stData.value = resp.data.data;
 console.log(resp.data);
+console.log(stData.value)
 });
 
 const handleDel = (index) => {
@@ -265,7 +268,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 console.log(key, keyPath)
 }
 
-const value1 = ref('')
+const dateRange = ref([]);
 const shortcuts = [
 {
 text: 'Last week',
@@ -295,6 +298,48 @@ return [start, end]
 },
 },
 ]
+
+const filterTableData = (dateRange) => {
+  if (!dateRange || dateRange.length !== 2) {
+    // 如果日期范围无效，不进行筛选
+    return;
+  }
+
+  // 在这里进行数据获取，然后过滤
+  api.get("/storehouse/").then((resp) => {
+    const rawData = resp.data.data;
+
+    const startDate = dateRange[0];
+    const endDate = dateRange[1];
+
+    const filteredData = rawData.filter(item => {
+      // 将 inventorydate 字符串解析为日期对象
+      const inventoryDate = parseISO(item.inventorydate);
+
+      // 格式化日期为 'yyyy-MM-DD' 格式
+      const formattedDate = format(inventoryDate, 'yyyy-MM-dd');
+
+      // 检查日期是否在范围内
+      return formattedDate >= startDate && formattedDate <= endDate;
+    });
+
+    // 更新 stData
+    stData.value = filteredData;
+
+    // 使用 filteredData 进行后续操作，例如更新视图
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 

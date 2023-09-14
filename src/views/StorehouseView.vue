@@ -1,31 +1,31 @@
 <template>
-					<div class="alignment-container">
-						<el-space alignment="center" :size="'large'">
-							<el-date-picker v-model="value1" type="datetimerange" :shortcuts="shortcuts"
-								range-separator="To" format="YYYY/MM/DD" value-format="YYYY-MM-DD"
-								start-placeholder="Start date" end-placeholder="End date" />
-							<el-button type="primary" size="small" round @click="dialogFormVisible = true" class="add-btn">
-								添加
-							</el-button>
-						</el-space>
-					</div>
-					
-					<el-table :data="stData" style="width: 100%">
-						<el-table-column prop="no" label="No" width="100" fixed />
-						<el-table-column prop="name" label="Name" />
-						<el-table-column prop="price" label="Price" />
-						<el-table-column prop="num" label="Num"  />
-						<el-table-column prop="storehouseid" label="Storehouseid" />
-						<el-table-column prop="inventorydate" label="Inventorydate" />
+	<div class="alignment-container">
+		<el-space alignment="center" :size="'large'">
+			<el-date-picker v-model="dateRange" type="daterange" :shortcuts="shortcuts" range-separator="To"
+				format="YYYY/MM/DD" value-format="YYYY-MM-DD" start-placeholder="Start date" end-placeholder="End date"
+				@change="filterTableData" />
+			<el-button size="small" round @click="resetDateRange">取消</el-button>
 
-						<el-table-column fixed="right" label="Operations" width="150" >
-							<template #default="scope">
-								<el-button link type="primary" size="small" @click="handleDel(scope.$index)">删除</el-button>
-								<el-button link type="primary" size="small" @click="handleEdit(scope.$index)">修改</el-button>
-							</template>
-						</el-table-column>
+			<el-button type="primary" size="small" round @click="dialogFormVisible = true" class="add-btn">添加</el-button>
+		</el-space>
+	</div>
 
-					</el-table>
+	<el-table :data="stData" style="width: 100%" stripe :header-cell-style="{ background: '#07e0d2', color: '#fff' }">
+		<el-table-column prop="no" label="No" width="100" fixed />
+		<el-table-column prop="name" label="Name" />
+		<el-table-column prop="price" label="Price" />
+		<el-table-column prop="num" label="Num" />
+		<el-table-column prop="storehouseid" label="Storehouseid" />
+		<el-table-column prop="inventorydate" label="Inventorydate" />
+
+		<el-table-column fixed="right" label="Operations" width="200">
+			<template #default="scope">
+				<el-button plain size="small" @click="handleEdit(scope.$index)">修改</el-button>
+				<el-button plain type="danger" size="small" @click="handleDel(scope.$index)">删除</el-button>
+			</template>
+		</el-table-column>
+
+	</el-table>
 
 
 
@@ -57,7 +57,7 @@
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button @click="dialogFormVisible = false">取消</el-button>
-				<el-button type="primary" @click="handleAdd">
+				<el-button type="primary" @click="handleAdd" class="color-btn">
 					确认
 				</el-button>
 			</span>
@@ -90,7 +90,7 @@
 
 		<template #footer>
 			<span class="dialog-footer">
-				<el-button type="primary" @click="handleSave">
+				<el-button type="primary" @click="handleSave" class="color-btn">
 					保存
 				</el-button>
 			</span>
@@ -103,6 +103,8 @@ import { ref, reactive } from 'vue';
 import api from "../api/api.js";
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { Action } from 'element-plus';
+import { format, parseISO } from 'date-fns';
+
 
 var stData = ref([]);
 
@@ -111,12 +113,24 @@ api.get("/storehouse/").then((resp) => {
 	console.log(resp.data);
 });
 
+
+const loadData = () => {
+  api.get("/storehouse/").then((resp) => {
+    stData.value = resp.data.data;
+    console.log(resp.data);
+  });
+};
+
+
+const resetDateRange = () => {
+  dateRange.value = [];
+  loadData();
+};
+
 const handleDel = (index) => {
 	// @ts-ignore
 	var no = stData.value[index].no;
 	console.log('执行删除' + no);
-
-	// 弹出询问框
 	ElMessageBox.confirm(
 		'是否确认删除编号' + no + '的货物',
 		'Warning',
@@ -295,11 +309,48 @@ const shortcuts = [
 		},
 	},
 ]
+const dateRange = ref([]);
+const filterTableData = (dateRange) => {
+	if (!dateRange || dateRange.length !== 2) {
+		// 如果日期范围无效，不进行筛选
+		return;
+	}
+
+	// 在这里进行数据获取，然后过滤
+	api.get("/storehouse/").then((resp) => {
+		const rawData = resp.data.data;
+
+		const startDate = dateRange[0];
+		const endDate = dateRange[1];
+
+		const filteredData = rawData.filter(item => {
+			// 将 inventorydate 字符串解析为日期对象
+			const inventoryDate = parseISO(item.inventorydate);
+
+			// 格式化日期为 'yyyy-MM-DD' 格式
+			const formattedDate = format(inventoryDate, 'yyyy-MM-dd');
+
+			// 检查日期是否在范围内
+			return formattedDate >= startDate && formattedDate <= endDate;
+		});
+
+		// 更新 stData
+		stData.value = filteredData;
+
+		// 使用 filteredData 进行后续操作，例如更新视图
+	});
+};
 </script>
   
 
 <style scoped>
 /* 在这里添加你的样式 */
+.color-btn {
+	background-color: #07e0d2;
+	color: #fff;
+	border: none;
+
+}
 
 /* 为按钮添加一些样式 */
 .el-button {
@@ -334,9 +385,10 @@ const shortcuts = [
 
 }
 
-.common-layout{
+.common-layout {
 	height: 100vh;
 }
+
 .alignment-container {
 	width: 240px;
 	margin-bottom: 20px;

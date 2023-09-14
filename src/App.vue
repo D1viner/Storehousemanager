@@ -7,6 +7,7 @@
 </template>
 
 <style scoped>
+
   #app {
     position: absolute;
     top: 0;

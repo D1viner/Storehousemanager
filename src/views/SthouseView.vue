@@ -1,21 +1,19 @@
 <template>
-    <el-button type="primary" @click="dialogFormVisible = true">
-        添加
-    </el-button>
-    <el-table :data="stData" style="width: 100%">
-        <el-table-column prop="storehouseid" label="Storehouseid"  />
+    <el-table :data="stData" style="width: 100%" stripe :header-cell-style="{ background: '#07e0d2', color: '#fff' }">
+        <el-table-column prop="storehouseid" label="Storehouseid" fixed="left" :width="'120px'" />
         <el-table-column prop="storehousename" label="Storehousename" />
-        <el-table-column prop="storehouseaddress" label="Storehouseaddress"  />
+        <el-table-column prop="storehouseaddress" label="Storehouseaddress" />
 
-
-
-        <el-table-column fixed="right" label="Operations" width="120">
+        <el-table-column fixed="right" label="Operations" width="200">
             <template #default="scope">
-                <el-button link type="primary" size="small" @click="handleDel(scope.$index)">删除</el-button>
-                <el-button link type="primary" size="small" @click="handleEdit(scope.$index)">修改</el-button>
+                <el-button plain size="small" @click="handleEdit(scope.$index)">修改</el-button>
+                <el-button plain type="danger" size="small" @click="handleDel(scope.$index)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
+    <el-button type="primary" size="small" round @click="dialogFormVisible = true" class="add-btn">
+        添加
+    </el-button>
 
 
     <el-dialog v-model="dialogFormVisible" title="添加仓库" :width="'400px'">
@@ -33,7 +31,9 @@
         <template #footer>
             <span class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="handleAdd">
+                <el-button type="primary" @click="handleAdd" style="    background-color: #07e0d2;
+	color: #fff;
+	border: none;">
                     确认
                 </el-button>
             </span>
@@ -56,7 +56,7 @@
 
         <template #footer>
             <span class="dialog-footer">
-                <el-button type="primary" @click="handleSave">
+                <el-button type="primary" @click="handleSave" style="    background-color: #07e0d2;color: #fff;border: none;">
                     保存
                 </el-button>
             </span>
@@ -225,9 +225,6 @@ const handleEdit = (index) => {
 }
 
 /* 为表格添加一些样式 */
-.el-table {
-    margin-top: 20px;
-}
 
 /* 为表单项添加一些样式 */
 .el-form-item {
@@ -236,7 +233,15 @@ const handleEdit = (index) => {
 
 /* 为按钮组添加一些样式 */
 .dialog-footer .el-button {
-
+    margin-top: -20px;
     margin-right: 5px;
+}
+
+.add-btn {
+    margin-top: 20px;
+    background-color: #07e0d2;
+    color: #fff;
+    border: none;
+
 }
 </style>
