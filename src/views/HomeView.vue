@@ -14,7 +14,7 @@
 
           <div class="flex-grow" />
           <el-sub-menu index="2">
-            <template #title>Admin</template>
+            <template #title>User</template>
             <el-menu-item index="2-1"><router-link to="/login" style="color: aliceblue;">
                 Logout</router-link></el-menu-item>
           </el-sub-menu>
@@ -30,7 +30,7 @@
                 <el-icon>
                   <Folder />
                 </el-icon>
-                <span>仓库模块</span>
+                <span>仓库管理</span>
               </template>
               <el-menu-item-group title="仓库">
                 <el-menu-item index="1-1"><router-link to="/home/storehouse">货物列表</router-link></el-menu-item>
@@ -38,10 +38,6 @@
               </el-menu-item-group>
             </el-sub-menu>
             <el-menu-item index="2">
-              <el-icon><icon-menu /></el-icon>
-              <span>后勤模块</span>
-            </el-menu-item>
-            <el-menu-item index="3">
               <el-icon>
                 <setting />
               </el-icon>
@@ -91,6 +87,6 @@ router-link {}
 
 a {
   text-decoration: none;
-  color: #5c3a78;
+  color: #000;
 }
 </style>
