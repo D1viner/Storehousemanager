@@ -96,7 +96,7 @@
     max-width: 400px;
     width: 300px;
     height: 400px;
-    margin: 200px auto;
+    margin: 150px auto;
     padding: 20px;
     border: 2px solid #ccc;
     border-radius: 10px;

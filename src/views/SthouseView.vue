@@ -1,6 +1,6 @@
 <template>
     <el-table :data="stData" style="width: 100%" stripe :header-cell-style="{ background: '#07e0d2', color: '#fff' }">
-        <el-table-column prop="storehouseid" label="Storehouseid" fixed="left" :width="'120px'" />
+        <el-table-column prop="storehouseid" label="Storehouseid" fixed="left" :width="'180px'" />
         <el-table-column prop="storehousename" label="Storehousename" />
         <el-table-column prop="storehouseaddress" label="Storehouseaddress" />
 

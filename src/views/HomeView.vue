@@ -7,8 +7,8 @@
 
       <el-header style="--el-header-padding: 0 0px">
 
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
-          text-color="#fff" active-text-color="#ffd04b" @select="handleSelect" :ellipsis="false">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#07e0d2"
+          text-color="#fff" active-text-color="#fff" @select="handleSelect" :ellipsis="false">
           <el-menu-item style="font-size: 20px; "><router-link to="/home"> StorehouseManager</router-link></el-menu-item>
 
 
@@ -91,6 +91,6 @@ router-link {}
 
 a {
   text-decoration: none;
-  color: #333;
+  color: #5c3a78;
 }
 </style>
